@@ -9,4 +9,4 @@ services:
       MONGO_INITDB_ROOT_USERNAME: daniel
       MONGO_INITDB_ROOT_PASSWORD: daniel
     ports:
-      - 27017:27017
+      - 27017:27017 
