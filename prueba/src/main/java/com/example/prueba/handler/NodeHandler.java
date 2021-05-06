@@ -45,6 +45,7 @@ public class NodeHandler {
 										.flatMap(ndb -> 
 												ServerResponse
 													.created(URI.create(""))
+													.contentType(MediaType.APPLICATION_JSON)
 													.body(BodyInserters.fromValue(ndb))
 												);
 						});

@@ -1,12 +1,14 @@
 package com.example.prueba.model;
 
+import org.bson.types.ObjectId;
+
 public class NodeDesc extends NodeRoot{
 	private String descripcion;
 	
 	public NodeDesc() {}
 	
-	public NodeDesc(String nombre, String descripcion) {
-		super(nombre);
+	public NodeDesc(ObjectId id, String nombre, String descripcion) {
+		super(id, nombre);
 		this.descripcion = descripcion;
 	}
 	
