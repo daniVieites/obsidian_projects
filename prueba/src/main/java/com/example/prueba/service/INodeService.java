@@ -6,6 +6,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface INodeService {
-	Mono<Void> insert(Mono<NodeRoot> node);
+	Mono<NodeRoot> insert(NodeRoot node);
 	Flux<NodeRoot> findAll();
 }

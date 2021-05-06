@@ -16,8 +16,8 @@ public class NodeService implements INodeService{
 	private NodeRepository nodeRepo;
 
 	@Override
-	public Mono<Void> insert(Mono<NodeRoot> node) {
-		return nodeRepo.insert(node).then();
+	public Mono<NodeRoot> insert(NodeRoot node) {
+		return nodeRepo.insert(node);
 	}
 
 	@Override
