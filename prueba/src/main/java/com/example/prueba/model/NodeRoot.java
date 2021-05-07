@@ -12,7 +12,7 @@ public class NodeRoot {
 	
 	public NodeRoot() {}
 	
-	public NodeRoot(ObjectId id, String nombre) {
+	public NodeRoot(String nombre) {
 		this.nombre = nombre;
 	}
 

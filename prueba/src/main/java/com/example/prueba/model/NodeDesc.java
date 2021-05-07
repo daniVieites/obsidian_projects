@@ -7,8 +7,8 @@ public class NodeDesc extends NodeRoot{
 	
 	public NodeDesc() {}
 	
-	public NodeDesc(ObjectId id, String nombre, String descripcion) {
-		super(id, nombre);
+	public NodeDesc(String nombre, String descripcion) {
+		super(nombre);
 		this.descripcion = descripcion;
 	}
 	

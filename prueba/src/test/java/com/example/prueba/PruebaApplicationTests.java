@@ -28,32 +28,30 @@ class PruebaApplicationTests {
 	@Test
 	public void listNodes() {
 		client.get()
-		.uri("/nodes")
-		.accept(MediaType.APPLICATION_JSON)
-		.exchange()
-		.expectStatus().isOk()
-		.expectBodyList(NodeRoot.class);
+			.uri("/nodes")
+			.accept(MediaType.APPLICATION_JSON)
+			.exchange()
+			.expectStatus().isOk()
+			.expectBodyList(NodeRoot.class);
 	}
 	
 //	@Test
 //	public void createDescNode() {
-//		NodeRoot nodeDesc = new NodeDesc(new ObjectId(), "desc", "desc description");
+//		NodeRoot nodeDesc = new NodeDesc("desc", "desc description");
 //		
 //		client.post()
-//		.uri("/insert")
-//		.contentType(MediaType.APPLICATION_JSON)
-//		.accept(MediaType.APPLICATION_JSON)
-//		.body(Mono.just(nodeDesc), NodeRoot.class)
-//		.exchange()
-//		.expectStatus().isCreated()
-//		.expectBody(NodeDesc.class)
-//		.consumeWith(response -> {
-//			NodeDesc node = response.getResponseBody();
-//			assertThat(node.getNombre()).isEqualTo("desc");
-//			assertThat(node.getDescripcion()).isEqualTo("desc description");
-//		});
+//			.uri("/insert")
+//			.body(Mono.just(nodeDesc), NodeRoot.class)
+//			.exchange()
+//			.expectStatus().isCreated()
+//			.expectBody(NodeDesc.class)
+//			.consumeWith(response -> {
+//				NodeDesc node = response.getResponseBody();
+//				assertThat(node.getNombre()).isEqualTo("desc");
+//				assertThat(node.getDescripcion()).isEqualTo("desc description");
+//			});
 //	}
-//	
+	
 //	@Test
 //	public void createRootNode() {
 //		NodeRoot nodeRoot = new NodeRoot(new ObjectId(), "root");

@@ -8,5 +8,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: daniel
       MONGO_INITDB_ROOT_PASSWORD: daniel
+      MONGO_DATABASE: obsidian
     ports:
-      - 27017:27017 
+      - 27017:27017
