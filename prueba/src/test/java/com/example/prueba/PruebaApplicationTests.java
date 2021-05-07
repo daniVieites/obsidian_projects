@@ -1,8 +1,5 @@
 package com.example.prueba;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.example.prueba.model.NodeDesc;
 import com.example.prueba.model.NodeRoot;
-
-import reactor.core.publisher.Mono;
 
 @AutoConfigureWebTestClient
 @RunWith(SpringRunner.class)

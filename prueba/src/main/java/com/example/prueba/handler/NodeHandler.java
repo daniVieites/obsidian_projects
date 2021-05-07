@@ -2,9 +2,7 @@ package com.example.prueba.handler;
 
 import java.net.URI;
 
-import org.bson.BSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;

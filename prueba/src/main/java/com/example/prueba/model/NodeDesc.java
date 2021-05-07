@@ -1,7 +1,5 @@
 package com.example.prueba.model;
 
-import org.bson.types.ObjectId;
-
 public class NodeDesc extends NodeRoot{
 	private String descripcion;
 	
