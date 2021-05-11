@@ -48,4 +48,11 @@ public class NodeHandler {
 						);
 			});
 	}
+	
+	public Mono<ServerResponse> trees(ServerRequest serverRequest){
+		return ServerResponse
+				.ok()
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(nodeService.findRoots(), NodeRoot.class);
+	}
 }

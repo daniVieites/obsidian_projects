@@ -17,6 +17,7 @@ public class NodeRouter {
 		return route()
 				.GET("/nodes", handler::findAll)
 				.POST("/insert", handler::insert)
+				.GET("/trees", handler::trees)
 				.build();
 	};
 }

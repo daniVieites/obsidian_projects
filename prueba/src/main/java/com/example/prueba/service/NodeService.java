@@ -24,4 +24,9 @@ public class NodeService implements INodeService{
 	public Flux<NodeRoot> findAll() {
 		return nodeRepo.findAll();
 	}
+
+	@Override
+	public Flux<NodeRoot> findRoots() {
+		return nodeRepo.findByClass(NodeRoot.class);
+	}
 }

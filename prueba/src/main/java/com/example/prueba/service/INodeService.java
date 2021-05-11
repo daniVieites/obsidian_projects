@@ -8,4 +8,5 @@ import reactor.core.publisher.Mono;
 public interface INodeService {
 	Mono<NodeRoot> insert(NodeRoot node);
 	Flux<NodeRoot> findAll();
+	Flux<NodeRoot> findRoots();
 }
