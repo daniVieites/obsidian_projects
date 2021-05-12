@@ -1,39 +1,29 @@
 package com.example.prueba.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.util.List;
+import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("node")
+@Data
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.CLASS,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "className")
 public class NodeRoot {
-	@Id
-	private ObjectId id;
-	private String nombre;
-	
-	public NodeRoot() {}
-	
-	public NodeRoot(String nombre) {
-		this.nombre = nombre;
-	}
+  @Id private ObjectId id;
+  private String nombre;
+  private List<NodeRoot> childs;
 
-	public String getId() {
-		return id.toString();
-	}
-	
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
+  public NodeRoot(@JsonProperty("nombre") String nombre) {
+    this.nombre = nombre;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	@Override
-	public String toString() {
-		return "NodeRoot [id=" + id + ", nombre=" + nombre + "]";
-	}
+  public String getId() {
+    return id.toString();
+  }
 }
