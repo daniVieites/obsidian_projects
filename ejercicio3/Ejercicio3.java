@@ -16,12 +16,15 @@ public class Ejercicio3 {
       ejercicio3.prohibidos = valores.subList(1, valores.size());
       ejercicio3.validados.clear();
       ejercicio3.arbol = new Arbol();
-      System.out.print("Proceso:");
       ejercicio3.calcular(new Nodo());
-      System.out.println("Resultado: " + ejercicio3.validados.size() + "\n");
+      System.out.println("#" + casos.indexOf(caso) +  ": " + ejercicio3.validados.size() + "\n");
     });
   }
 
+  /**
+   * Calcula el número de sumas posibles para obetener el valor deseado (objetivo)
+   * @param nodo Nodo actual. Puede ser uno nuevo o el último del árbol.b
+   */
   public void calcular(Nodo nodo){
     int dato = nodo.getDato();
     int suma = arbol.getSuma();
@@ -47,6 +50,9 @@ public class Ejercicio3 {
     }
   }
 
+  /**
+   * Guarda la nueva operación que se puede realizar para obtener el número deseado.
+   */
   public void addOperation() {
     boolean add = true;
     Set<Integer> nodos = arbol.getNodos();
@@ -62,6 +68,11 @@ public class Ejercicio3 {
     }
   }
 
+  /**
+   * Elimina el último nodo y devuelve el nodo que se encuentra ahora en la cola del árbol, con su valor cambiado.
+   * 
+   * @return: El nodo que se encuentra ahora en la cola.
+   */
   public Nodo retroceder(){
     Nodo nodo = arbol.getCola().getPadre();
     arbol.setCola(nodo);
@@ -71,6 +82,11 @@ public class Ejercicio3 {
     return nodo;
   }
 
+  /**
+   * Devuelve el siguiente dato que no esté prohibido con respecto al dato del nodo pasado como parámetro.
+   * @param dato Dato del nodo
+   * @return Siguiente dato válido
+   */
   public int siguienteValor(int dato){
     do{
       ++dato;
@@ -100,6 +116,10 @@ class Arbol{
   private Nodo cabeza;
   private Nodo cola;
 
+  /**
+   * Añade un nuevo nodo al árbol.
+   * @param nodo
+   */
   public void addNodo(Nodo nodo){
     if(cabeza == null){
       cabeza = nodo;
@@ -111,25 +131,33 @@ class Arbol{
     }
   }
 
+  /**
+   * Crea un Set con los datos de los nodos que se encuentran en el árbol.
+   * @return Set con los datos de los nodos que se encuentran en el árbol.
+   */
   public Set<Integer> getNodos(){
     Set<Integer> set = new TreeSet<>();
     Nodo actual = cabeza;
     do{
+      // System.out.print(actual.getDato());
       set.add(actual.getDato());
       actual = actual.getHijo();
     }while(actual != null);
+    // System.out.println("");
     return set;
   }
-  
+
+  /**
+   * Suma todos los valores de los nodos que se encuentran en el árbol.
+   * @return Suma de los valores de todos los nodos del árbol.
+   */
   public int getSuma(){
     int suma = 0;
     Nodo actual = cabeza;
     while(actual != null){
-      System.out.print(actual.getDato() + " ");
       suma += actual.getDato();
       actual = actual.getHijo();
     }
-    System.out.println("");
     return suma;
   }
 
