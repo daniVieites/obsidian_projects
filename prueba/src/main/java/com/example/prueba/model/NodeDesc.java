@@ -11,10 +11,10 @@ import org.bson.types.ObjectId;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public class NodeDesc extends NodeRoot {
-  private String descripcion;
+  private String descripcion = "";
 
   @JsonSerialize(using = ToStringSerializer.class)
-  private ObjectId parentId;
+  private ObjectId parentId = new ObjectId();
 
   public NodeDesc(String nombre, String descripcion, ObjectId parentId) {
     super(nombre);

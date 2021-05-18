@@ -2,8 +2,6 @@ package com.example.prueba.handler;
 
 import com.example.prueba.model.NodeRoot;
 import com.example.prueba.service.INodeService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.time.Duration;
 import java.util.List;
@@ -20,7 +18,6 @@ import reactor.core.publisher.Mono;
 public class NodeHandler {
 
   @Autowired private INodeService nodeService;
-  private final ObjectMapper mapper = new ObjectMapper();
 
   public Mono<ServerResponse> findAll(ServerRequest serverRequest) {
     return ServerResponse.ok()
@@ -31,20 +28,14 @@ public class NodeHandler {
   public Mono<ServerResponse> insert(ServerRequest serverRequest) {
     var bodyString = serverRequest.bodyToMono(NodeRoot.class);
     return bodyString.flatMap(
-        b -> {
-        	try {
-						System.out.println(mapper.writeValueAsString(b));
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-					}
-        	return nodeService
-              .insert(b)
-              .flatMap(
-                  ndb ->
-                      ServerResponse.created(URI.create(""))
-                          .contentType(MediaType.APPLICATION_NDJSON)
-                          .body(BodyInserters.fromValue(ndb)));
-        });
+        b ->
+            nodeService
+                .insert(b)
+                .flatMap(
+                    ndb ->
+                        ServerResponse.created(URI.create(""))
+                            .contentType(MediaType.APPLICATION_NDJSON)
+                            .body(BodyInserters.fromValue(ndb))));
   }
 
   public Mono<ServerResponse> trees(ServerRequest serverRequest) {
@@ -66,7 +57,7 @@ public class NodeHandler {
           .collectList()
           .subscribe(
               nodeChilds -> {
-                node.setChilds(nodeChilds);
+                node.setChildren(nodeChilds);
                 treeGenerator(nodeChilds);
               });
     }
