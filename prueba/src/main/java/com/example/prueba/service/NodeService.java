@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 public class NodeService implements INodeService {
 
   @Autowired private NodeRepository nodeRepo;
-  private static final String CLASS_NAME = "com.example.prueba.model.NodeRoot";
+  private static final String CLASS_NAME = NodeRoot.class.getName();
 
   @Override
   public Mono<NodeRoot> insert(NodeRoot node) {
@@ -30,7 +30,7 @@ public class NodeService implements INodeService {
   }
 
   @Override
-  public Flux<NodeRoot> findChilds(String objectId) {
-    return nodeRepo.findByParentId(new ObjectId(objectId));
+  public Flux<NodeRoot> findChilds(ObjectId objectId) {
+    return nodeRepo.findByParentId(objectId);
   }
 }

@@ -29,17 +29,16 @@ public class NodeHandler {
   }
 
   public Mono<ServerResponse> insert(ServerRequest serverRequest) {
-    var bodyString = serverRequest.bodyToMono(String.class);
+    var bodyString = serverRequest.bodyToMono(NodeRoot.class);
     return bodyString.flatMap(
         b -> {
-          NodeRoot body = null;
-          try {
-            body = mapper.readerFor(NodeRoot.class).readValue(b);
-          } catch (JsonProcessingException e) {
-            e.printStackTrace();
-          }
-          return nodeService
-              .insert(body)
+        	try {
+						System.out.println(mapper.writeValueAsString(b));
+					} catch (JsonProcessingException e) {
+						e.printStackTrace();
+					}
+        	return nodeService
+              .insert(b)
               .flatMap(
                   ndb ->
                       ServerResponse.created(URI.create(""))
