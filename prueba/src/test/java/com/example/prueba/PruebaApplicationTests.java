@@ -1,24 +1,26 @@
 package com.example.prueba;
 
-import com.example.prueba.model.NodeRoot;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import com.example.prueba.model.NodeRoot;
+
 @AutoConfigureWebTestClient
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@RunWith(MockitoJUnitRunner.class)
+@WebFluxTest(excludeAutoConfiguration = ReactiveSecurityAutoConfiguration.class)
 class PruebaApplicationTests {
 
   @Autowired private WebTestClient client;
 
   @Test
-  public void listNodes() {
+  void listNodes() {
     client
         .get()
         .uri("/nodes")
