@@ -3,8 +3,6 @@ package com.example.prueba.handler;
 import com.example.prueba.model.NodeRoot;
 import com.example.prueba.service.INodeService;
 import java.net.URI;
-import java.time.Duration;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -39,27 +37,23 @@ public class NodeHandler {
   }
 
   public Mono<ServerResponse> trees(ServerRequest serverRequest) {
-    return nodeService
-        .findRoots()
-        .collectList()
-        .flatMap(
-            list -> {
-              treeGenerator(list);
-              return ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON).bodyValue(list);
-            })
-        .delayElement(Duration.ofMillis(100));
+    var flux = nodeService.findRoots().flatMap(this::treeGenerator);
+
+    return ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON).bodyValue(flux);
   }
 
-  public void treeGenerator(List<NodeRoot> list) {
-    for (NodeRoot node : list) {
-      Flux<NodeRoot> children = nodeService.findChildren(node.getId());
-      children
-          .collectList()
-          .subscribe(
-              nodeChildren -> {
-                node.setChildren(nodeChildren);
-                treeGenerator(nodeChildren);
-              });
-    }
+  public Mono<NodeRoot> treeGenerator(NodeRoot node) {
+    nodeService
+        .findChildren(node.getId())
+        .collectList()
+        .subscribe(
+            nodeChildren -> {
+              node.setChildren(nodeChildren);
+              for (NodeRoot nodeDesc : nodeChildren) {
+                treeGenerator(nodeDesc);
+              }
+            });
+
+    return Mono.just(node);
   }
 }

@@ -1,5 +1,6 @@
 package com.example.prueba;
 
+import com.example.prueba.model.NodeRoot;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -9,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import com.example.prueba.model.NodeRoot;
 
 @AutoConfigureWebTestClient
 @RunWith(MockitoJUnitRunner.class)
