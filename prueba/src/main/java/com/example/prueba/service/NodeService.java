@@ -30,7 +30,7 @@ public class NodeService implements INodeService {
   }
 
   @Override
-  public Flux<NodeRoot> findChilds(ObjectId objectId) {
+  public Flux<NodeRoot> findChildren(ObjectId objectId) {
     return nodeRepo.findByParentId(objectId);
   }
 }

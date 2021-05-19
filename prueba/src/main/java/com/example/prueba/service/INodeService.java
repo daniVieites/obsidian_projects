@@ -12,5 +12,5 @@ public interface INodeService {
 
   Flux<NodeRoot> findRoots();
 
-  Flux<NodeRoot> findChilds(ObjectId objectId);
+  Flux<NodeRoot> findChildren(ObjectId objectId);
 }

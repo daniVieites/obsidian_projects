@@ -52,13 +52,13 @@ public class NodeHandler {
 
   public void treeGenerator(List<NodeRoot> list) {
     for (NodeRoot node : list) {
-      Flux<NodeRoot> childs = nodeService.findChilds(node.getId());
-      childs
+      Flux<NodeRoot> children = nodeService.findChildren(node.getId());
+      children
           .collectList()
           .subscribe(
-              nodeChilds -> {
-                node.setChildren(nodeChilds);
-                treeGenerator(nodeChilds);
+              nodeChildren -> {
+                node.setChildren(nodeChildren);
+                treeGenerator(nodeChildren);
               });
     }
   }
