@@ -39,7 +39,7 @@ public class NodeHandler {
 
   public Mono<ServerResponse> trees(ServerRequest serverRequest) {
     var flux =
-        nodeService.findRoots().flatMap(this::treeGenerator).delayElements(Duration.ofMillis(300));
+        nodeService.findRoots().flatMap(this::treeGenerator);
 
     return ServerResponse.ok().contentType(MediaType.APPLICATION_NDJSON).body(flux, NodeRoot.class);
   }
