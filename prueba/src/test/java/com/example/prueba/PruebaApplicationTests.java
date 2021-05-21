@@ -31,18 +31,18 @@ class PruebaApplicationTests {
   }
 
   //	@Test
-  //	public void createDescNode() {
-  //		NodeRoot nodeDesc = new NodeDesc("desc", "desc description");
+  //	 void createDescNode() {
+  //		NodeRoot nodeDesc = new NodeDesc("desc", "desc description", null);
   //
-  //		client.post()
-  //			.uri("/insert")
-  //			.body(Mono.just(nodeDesc), NodeRoot.class)
+  //	  		client.post()
+  //	  			.uri("/insert")
+  //			.body(Mono.just(nodeDesc), NodeDesc.class)
   //			.exchange()
   //			.expectStatus().isCreated()
   //			.expectBody(NodeDesc.class)
   //			.consumeWith(response -> {
   //				NodeDesc node = response.getResponseBody();
-  //				assertThat(node.getNombre()).isEqualTo("desc");
+  //				assertThat(node.getNombre(), is("desc"));
   //				assertThat(node.getDescripcion()).isEqualTo("desc description");
   //			});
   //	}
