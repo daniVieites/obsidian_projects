@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -52,10 +51,7 @@ public class NodeHandler {
         .flatMap(
             nodeChildren -> {
               node.setChildren(nodeChildren);
-              return Flux
-            		  .fromIterable(nodeChildren)
-            		  .flatMap(this::treeGenerator)
-            		  .then();
+              return Flux.fromIterable(nodeChildren).flatMap(this::treeGenerator).then();
             })
         .then(Mono.just(node));
   }
