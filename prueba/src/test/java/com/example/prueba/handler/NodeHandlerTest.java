@@ -71,12 +71,6 @@ class NodeHandlerTest {
     var nodeRoot = new NodeRoot();
     nodeRoot.setNombre("root");
 
-    var parentId = new ObjectId();
-    var nodeDesc = new NodeDesc();
-    nodeDesc.setNombre("desc");
-    nodeDesc.setDescripcion("node desc");
-    nodeDesc.setParentId(parentId);
-
     when(service.insert(any(NodeRoot.class)))
         .then(
             invocation -> {
@@ -85,7 +79,6 @@ class NodeHandlerTest {
               return Mono.just(nr);
             });
 
-    // insert NodeRoot test
     client
         .post()
         .uri("/insert")
@@ -105,28 +98,46 @@ class NodeHandlerTest {
               assertEquals("root", n.getNombre());
             });
 
-    // insert NodeDesc test
-    client
-        .post()
-        .uri("/insert")
-        .contentType(MediaType.APPLICATION_NDJSON)
-        .bodyValue(nodeDesc)
-        .exchange()
-        .expectStatus()
-        .isCreated()
-        .expectHeader()
-        .contentType(MediaType.APPLICATION_NDJSON)
-        .expectBody(NodeDesc.class)
-        .consumeWith(
-            response -> {
-              NodeDesc n = response.getResponseBody();
-              assertNotNull(n);
-              assertNotNull(n.getId());
-              assertEquals("desc", n.getNombre());
-              assertEquals("node desc", n.getDescripcion());
-              assertEquals(parentId.toString(), n.getParentId().toString());
-            });
+    verify(service).insert(any(NodeRoot.class));
+  }
 
-    verify(service, times(2)).insert(any(NodeRoot.class));
+  @Test
+  void insertNodeDesc() {
+    var parentId = new ObjectId();
+    var nodeDesc = new NodeDesc();
+    nodeDesc.setNombre("desc");
+    nodeDesc.setDescripcion("node desc");
+    nodeDesc.setParentId(parentId);
+
+    when(service.insert(any(NodeRoot.class)))
+            .then(
+                    invocation -> {
+                      NodeRoot nr = invocation.getArgument(0);
+                      nr.setId(new ObjectId());
+                      return Mono.just(nr);
+                    });
+
+    client
+            .post()
+            .uri("/insert")
+            .contentType(MediaType.APPLICATION_NDJSON)
+            .bodyValue(nodeDesc)
+            .exchange()
+            .expectStatus()
+            .isCreated()
+            .expectHeader()
+            .contentType(MediaType.APPLICATION_NDJSON)
+            .expectBody(NodeDesc.class)
+            .consumeWith(
+                    response -> {
+                      NodeDesc n = response.getResponseBody();
+                      assertNotNull(n);
+                      assertNotNull(n.getId());
+                      assertEquals("desc", n.getNombre());
+                      assertEquals("node desc", n.getDescripcion());
+                      assertEquals(parentId.toString(), n.getParentId().toString());
+                    });
+
+    verify(service).insert(any(NodeRoot.class));
   }
 }

@@ -53,15 +53,9 @@ class NodeServiceTest {
   }
 
   @Test
-  void insert() throws JsonProcessingException {
+  void insertNodeRoot() throws JsonProcessingException {
     var nodeRoot = new NodeRoot();
     nodeRoot.setNombre("root");
-
-    var parentId = new ObjectId();
-    var nodeDesc = new NodeDesc();
-    nodeDesc.setNombre("desc");
-    nodeDesc.setDescripcion("node desc");
-    nodeDesc.setParentId(parentId);
 
     when(repository.insert(any(NodeRoot.class)))
         .then(
@@ -71,23 +65,39 @@ class NodeServiceTest {
               return Mono.just(n);
             });
 
-    // insert NodeRoot test
     var nodeRootInsert = service.insert(nodeRoot).block();
 
     assertNotNull(nodeRootInsert);
     assertNotNull(nodeRootInsert.getId());
     assertEquals("root", nodeRootInsert.getNombre());
 
-    // insert NodeDesc test
-    var nodeDescInsert = service.insert(nodeDesc).block();
-    var nodeDescInsertJson = mapper.readTree(mapper.writeValueAsString(nodeDescInsert));
+    verify(repository).insert(any(NodeRoot.class));
+  }
+
+  @Test
+  void insertNodeDesc() throws JsonProcessingException {
+    var parentId = new ObjectId();
+    var nodeDesc = new NodeDesc();
+    nodeDesc.setNombre("desc");
+    nodeDesc.setDescripcion("node desc");
+    nodeDesc.setParentId(parentId);
+
+    when(repository.insert(any(NodeRoot.class)))
+            .then(
+                    invocation -> {
+                      NodeRoot n = invocation.getArgument(0);
+                      n.setId(new ObjectId());
+                      return Mono.just(n);
+                    });
+
+    var nodeDescInsert = (NodeDesc) service.insert(nodeDesc).block();
 
     assertNotNull(nodeDescInsert);
-    assertNotNull(nodeDescInsertJson.path("id"));
-    assertEquals("desc", nodeDescInsertJson.path("nombre").asText());
-    assertEquals("node desc", nodeDescInsertJson.path("descripcion").asText());
-    assertEquals(parentId.toString(), nodeDescInsertJson.path("parentId").asText());
+    assertNotNull(nodeDescInsert.getId());
+    assertEquals("desc", nodeDescInsert.getNombre());
+    assertEquals("node desc", nodeDescInsert.getDescripcion());
+    assertEquals(parentId.toString(), nodeDescInsert.getParentId().toString());
 
-    verify(repository, times(2)).insert(any(NodeRoot.class));
+    verify(repository).insert(any(NodeRoot.class));
   }
 }
