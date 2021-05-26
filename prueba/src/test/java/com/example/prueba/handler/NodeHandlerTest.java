@@ -6,11 +6,9 @@ import static org.mockito.Mockito.*;
 import com.example.prueba.model.NodeDesc;
 import com.example.prueba.model.NodeRoot;
 import com.example.prueba.service.NodeService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.List;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,33 +102,33 @@ class NodeHandlerTest {
     nodeDesc.setParentId(parentId);
 
     when(service.insert(any(NodeRoot.class)))
-            .then(
-                    invocation -> {
-                      NodeRoot nr = invocation.getArgument(0);
-                      nr.setId(new ObjectId());
-                      return Mono.just(nr);
-                    });
+        .then(
+            invocation -> {
+              NodeRoot nr = invocation.getArgument(0);
+              nr.setId(new ObjectId());
+              return Mono.just(nr);
+            });
 
     client
-            .post()
-            .uri("/insert")
-            .contentType(MediaType.APPLICATION_NDJSON)
-            .bodyValue(nodeDesc)
-            .exchange()
-            .expectStatus()
-            .isCreated()
-            .expectHeader()
-            .contentType(MediaType.APPLICATION_NDJSON)
-            .expectBody(NodeDesc.class)
-            .consumeWith(
-                    response -> {
-                      NodeDesc n = response.getResponseBody();
-                      assertNotNull(n);
-                      assertNotNull(n.getId());
-                      assertEquals("desc", n.getNombre());
-                      assertEquals("node desc", n.getDescripcion());
-                      assertEquals(parentId.toString(), n.getParentId().toString());
-                    });
+        .post()
+        .uri("/insert")
+        .contentType(MediaType.APPLICATION_NDJSON)
+        .bodyValue(nodeDesc)
+        .exchange()
+        .expectStatus()
+        .isCreated()
+        .expectHeader()
+        .contentType(MediaType.APPLICATION_NDJSON)
+        .expectBody(NodeDesc.class)
+        .consumeWith(
+            response -> {
+              NodeDesc n = response.getResponseBody();
+              assertNotNull(n);
+              assertNotNull(n.getId());
+              assertEquals("desc", n.getNombre());
+              assertEquals("node desc", n.getDescripcion());
+              assertEquals(parentId.toString(), n.getParentId().toString());
+            });
 
     verify(service).insert(any(NodeRoot.class));
   }
