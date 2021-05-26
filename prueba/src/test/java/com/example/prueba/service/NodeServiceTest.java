@@ -27,12 +27,6 @@ class NodeServiceTest {
 
   @Autowired private NodeService service;
   @MockBean private NodeRepository repository;
-  private ObjectMapper mapper;
-
-  @BeforeEach
-  void setUp() {
-    mapper = new ObjectMapper();
-  }
 
   @Test
   void findAll() {

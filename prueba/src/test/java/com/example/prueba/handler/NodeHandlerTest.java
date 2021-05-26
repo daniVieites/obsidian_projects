@@ -30,12 +30,6 @@ class NodeHandlerTest {
 
   @Autowired private WebTestClient client;
   @MockBean private NodeService service;
-  private ObjectMapper mapper;
-
-  @BeforeEach
-  void setUp() {
-    mapper = new ObjectMapper();
-  }
 
   @Test
   void findAll() {
