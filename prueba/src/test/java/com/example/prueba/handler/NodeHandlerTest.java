@@ -7,6 +7,7 @@ import com.example.prueba.model.NodeDesc;
 import com.example.prueba.model.NodeRoot;
 import com.example.prueba.service.NodeService;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -131,5 +132,67 @@ class NodeHandlerTest {
             });
 
     verify(service).insert(any(NodeRoot.class));
+  }
+
+  @Test
+  void trees() {
+    var id1 = new ObjectId();
+    var id2 = new ObjectId();
+    var id1_1 = new ObjectId();
+
+    var root1 = new NodeRoot("root1");
+    root1.setId(id1);
+    var root2 = new NodeRoot("root2");
+    root2.setId(id2);
+
+    var desc1_1 = new NodeDesc("desc1_1", null, id1);
+    desc1_1.setId(id1_1);
+    var desc1_2 = new NodeDesc("desc1_2", null, id1);
+    var desc1_1_1 = new NodeDesc("desc1_1_1", null, id1_1);
+    var desc1_1_2 = new NodeDesc("desc1_1_2", null, id1_1);
+    var desc2_1 = new NodeDesc("desc2_1", null, id2);
+
+    var roots = Arrays.asList(root1, root2);
+    var root1Children = Arrays.asList(desc1_1, desc1_2);
+    var root2Children = Collections.singletonList(desc2_1);
+    var desc1_1Children = Arrays.asList(desc1_1_1, desc1_1_2);
+
+    when(service.findRoots()).thenReturn(Flux.fromIterable(roots));
+    when(service.findChildren(id1)).thenReturn(Flux.fromIterable(root1Children));
+    when(service.findChildren(id2)).thenReturn(Flux.fromIterable(root2Children));
+    when(service.findChildren(id1_1)).thenReturn(Flux.fromIterable(desc1_1Children));
+    when(service.findChildren(isNull())).thenReturn(Flux.fromIterable(Collections.emptyList()));
+
+    client
+        .get()
+        .uri("/trees")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectHeader()
+        .contentType(MediaType.APPLICATION_NDJSON)
+        .expectBodyList(NodeRoot.class)
+        .consumeWith(
+            response -> {
+              var list = response.getResponseBody();
+              assertNotNull(list);
+              assertEquals("root1", list.get(0).getNombre());
+
+              assertEquals(2, list.get(0).getChildren().size());
+              assertEquals("desc1_1", list.get(0).getChildren().get(0).getNombre());
+              assertEquals("desc1_2", list.get(0).getChildren().get(1).getNombre());
+
+              assertEquals(2, list.get(0).getChildren().get(0).getChildren().size());
+              assertEquals(
+                  "desc1_1_1", list.get(0).getChildren().get(0).getChildren().get(0).getNombre());
+              assertEquals(
+                  "desc1_1_2", list.get(0).getChildren().get(0).getChildren().get(1).getNombre());
+
+              assertEquals("root2", list.get(1).getNombre());
+
+              assertEquals(2, list.get(1).getChildren().size());
+              assertEquals("desc2_1", list.get(1).getChildren().get(0).getNombre());
+            })
+        .hasSize(2);
   }
 }
