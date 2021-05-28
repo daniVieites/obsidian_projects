@@ -40,11 +40,23 @@ Para obtener todos los nodos introducidos, y comprobar así el endpoint de lista
 
 Mediante una petición GET a la URL http://localhost:8080/trees se puede ver la estructura de padres e hijos correspondiente al árbol creado.
 
+### Tests
+
+Para probar los test, desde el directorio /obsidian_projects/prueba, ejecutar el siguiente comando:
+
+```
+./mvnw test
+```
+
 ## Prueba del ejercicio 3
 
 En el directorio /obsidian_projects/ejercicio3 se encuentra el archivo .java correspondiente a este ejercicio.
 
-Ejecutar el comando java Ejercicio3.java para probarlo.
+Ejecutar el siguiente comando para probarlo.
+
+```
+java Ejercicio3.java
+```
 
 Casos de uso:
 
