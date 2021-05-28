@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 public class NodeService implements INodeService {
 
   @Autowired private NodeRepository nodeRepo;
-  private static final String CLASS_NAME = NodeRoot.class.getName();
 
   @Override
   public Mono<NodeRoot> insert(NodeRoot node) {
@@ -26,7 +25,7 @@ public class NodeService implements INodeService {
 
   @Override
   public Flux<NodeRoot> findRoots() {
-    return nodeRepo.findByClassName(CLASS_NAME);
+    return nodeRepo.findByParentIdNot();
   }
 
   @Override

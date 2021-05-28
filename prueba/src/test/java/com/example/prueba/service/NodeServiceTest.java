@@ -96,8 +96,7 @@ class NodeServiceTest {
   @Test
   void findRoots() {
     List<NodeRoot> roots = Arrays.asList(new NodeRoot("root1"), new NodeRoot("root2"));
-    String className = NodeRoot.class.getName();
-    when(repository.findByClassName(className)).thenReturn(Flux.fromIterable(roots));
+    when(repository.findByParentIdNot()).thenReturn(Flux.fromIterable(roots));
 
     var rootList = service.findRoots().collectList().block();
 
@@ -106,7 +105,7 @@ class NodeServiceTest {
     assertEquals("root1", rootList.get(0).getNombre());
     assertEquals("root2", rootList.get(1).getNombre());
 
-    verify(repository).findByClassName(className);
+    verify(repository).findByParentIdNot();
   }
 
   @Test

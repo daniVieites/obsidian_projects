@@ -152,10 +152,10 @@ class NodeHandlerTest {
     var desc1_1_2 = new NodeDesc("desc1_1_2", null, id1_1);
     var desc2_1 = new NodeDesc("desc2_1", null, id2);
 
-    var roots = Arrays.asList(root1, root2);
-    var root1Children = Arrays.asList(desc1_1, desc1_2);
-    var root2Children = Collections.singletonList(desc2_1);
-    var desc1_1Children = Arrays.asList(desc1_1_1, desc1_1_2);
+    var roots = List.of(root1, root2);
+    var root1Children = List.of(desc1_1, desc1_2);
+    var root2Children = List.of(desc2_1);
+    var desc1_1Children = List.of(desc1_1_1, desc1_1_2);
 
     when(service.findRoots()).thenReturn(Flux.fromIterable(roots));
     when(service.findChildren(id1)).thenReturn(Flux.fromIterable(root1Children));
@@ -176,22 +176,30 @@ class NodeHandlerTest {
             response -> {
               var list = response.getResponseBody();
               assertNotNull(list);
-              assertEquals("root1", list.get(0).getNombre());
 
-              assertEquals(2, list.get(0).getChildren().size());
-              assertEquals("desc1_1", list.get(0).getChildren().get(0).getNombre());
-              assertEquals("desc1_2", list.get(0).getChildren().get(1).getNombre());
+              var nodeRoot1 = list.get(0);
+              assertEquals("root1", nodeRoot1.getNombre());
+              assertEquals(2, nodeRoot1.getChildren().size());
 
-              assertEquals(2, list.get(0).getChildren().get(0).getChildren().size());
-              assertEquals(
-                  "desc1_1_1", list.get(0).getChildren().get(0).getChildren().get(0).getNombre());
-              assertEquals(
-                  "desc1_1_2", list.get(0).getChildren().get(0).getChildren().get(1).getNombre());
+              var nodeDesc1_1 = nodeRoot1.getChildren().get(0);
+              assertEquals("desc1_1", nodeDesc1_1.getNombre());
+              assertEquals(2, nodeDesc1_1.getChildren().size());
 
-              assertEquals("root2", list.get(1).getNombre());
+              var nodeDesc1_2 = nodeRoot1.getChildren().get(1);
+              assertEquals("desc1_2", nodeDesc1_2.getNombre());
 
-              assertEquals(1, list.get(1).getChildren().size());
-              assertEquals("desc2_1", list.get(1).getChildren().get(0).getNombre());
+              var nodeDesc1_1_1 = nodeDesc1_1.getChildren().get(0);
+              assertEquals("desc1_1_1", nodeDesc1_1_1.getNombre());
+
+              var nodeDesc1_1_2 = nodeDesc1_1.getChildren().get(1);
+              assertEquals("desc1_1_2", nodeDesc1_1_2.getNombre());
+
+              var nodeRoot2 = list.get(1);
+              assertEquals("root2", nodeRoot2.getNombre());
+              assertEquals(1, nodeRoot2.getChildren().size());
+
+              var nodeDesc2_1 = nodeRoot2.getChildren().get(0);
+              assertEquals("desc2_1", nodeDesc2_1.getNombre());
             })
         .hasSize(2);
 
