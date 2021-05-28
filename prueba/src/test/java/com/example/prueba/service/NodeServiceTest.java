@@ -49,7 +49,7 @@ class NodeServiceTest {
     var nodeRoot = new NodeRoot();
     nodeRoot.setNombre("root");
 
-    when(repository.insert(any(NodeRoot.class)))
+    when(repository.insert(nodeRoot))
         .then(
             invocation -> {
               NodeRoot n = invocation.getArgument(0);
@@ -63,7 +63,7 @@ class NodeServiceTest {
     assertNotNull(nodeRootInsert.getId());
     assertEquals("root", nodeRootInsert.getNombre());
 
-    verify(repository).insert(any(NodeRoot.class));
+    verify(repository).insert(nodeRoot);
   }
 
   @Test
@@ -74,7 +74,7 @@ class NodeServiceTest {
     nodeDesc.setDescripcion("node desc");
     nodeDesc.setParentId(parentId);
 
-    when(repository.insert(any(NodeRoot.class)))
+    when(repository.insert(nodeDesc))
         .then(
             invocation -> {
               NodeRoot n = invocation.getArgument(0);
@@ -90,13 +90,14 @@ class NodeServiceTest {
     assertEquals("node desc", nodeDescInsert.getDescripcion());
     assertEquals(parentId.toString(), nodeDescInsert.getParentId().toString());
 
-    verify(repository).insert(any(NodeRoot.class));
+    verify(repository).insert(nodeDesc);
   }
 
   @Test
   void findRoots() {
     List<NodeRoot> roots = Arrays.asList(new NodeRoot("root1"), new NodeRoot("root2"));
-    when(repository.findByClassName(anyString())).thenReturn(Flux.fromIterable(roots));
+    String className = NodeRoot.class.getName();
+    when(repository.findByClassName(className)).thenReturn(Flux.fromIterable(roots));
 
     var rootList = service.findRoots().collectList().block();
 
@@ -105,7 +106,7 @@ class NodeServiceTest {
     assertEquals("root1", rootList.get(0).getNombre());
     assertEquals("root2", rootList.get(1).getNombre());
 
-    verify(repository).findByClassName(anyString());
+    verify(repository).findByClassName(className);
   }
 
   @Test
