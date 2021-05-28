@@ -23,7 +23,7 @@ docker-compose up -d
 Ejecutar desde el directorio principal:
 
 ```
-java -jar prueba/target/prueba-0.0.1-SNAPSHOT.jar
+java -jar prueba/target/prueba-0.0.1-SNAPSHOT.jar &
 ```
 
 ### Pruebas
