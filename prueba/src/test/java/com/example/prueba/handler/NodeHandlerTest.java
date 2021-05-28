@@ -190,9 +190,13 @@ class NodeHandlerTest {
 
               assertEquals("root2", list.get(1).getNombre());
 
-              assertEquals(2, list.get(1).getChildren().size());
+              assertEquals(1, list.get(1).getChildren().size());
               assertEquals("desc2_1", list.get(1).getChildren().get(0).getNombre());
             })
         .hasSize(2);
+
+    verify(service).findRoots();
+    verify(service, times(3)).findChildren(any(ObjectId.class));
+    verify(service, times(4)).findChildren(isNull());
   }
 }
