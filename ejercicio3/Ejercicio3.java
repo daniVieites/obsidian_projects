@@ -17,7 +17,7 @@ public class Ejercicio3 {
       ejercicio3.validados.clear();
       ejercicio3.arbol = new Arbol();
       ejercicio3.calcular(new Nodo());
-      System.out.println("#" + casos.indexOf(caso) +  ": " + ejercicio3.validados.size() + "\n");
+      System.out.println("#" + (casos.indexOf(caso) + 1) +  ": " + ejercicio3.validados.size());
     });
   }
 
@@ -63,7 +63,6 @@ public class Ejercicio3 {
       }
     }
     if(add){
-      System.out.println("+1");
       validados.add(nodos);
     }
   }
@@ -98,13 +97,27 @@ public class Ejercicio3 {
     Scanner sc = new Scanner(System.in);
     List<String> casos = new ArrayList<>();
 
-    System.out.println("Escribe 0 cuando quieras dejar de insertar casos");
+    System.out.println("Escribe 0 cuando quieras dejar de insertar casos.");
     while(true){
       System.out.print("Nuevo caso: ");
       String caso = sc.nextLine().trim();
       if(caso.matches("0")) {
         break;
       }
+
+      List<String> datos = Arrays.asList(caso.split(" "));
+      boolean correcto = true;
+      for(String dato : datos){
+        if(!dato.matches("[0-9]")){
+          correcto = false;
+          System.out.println("Caso no válido");
+          break;
+        }
+      }
+      if(!correcto){
+        continue;
+      }
+
       casos.add(caso);
     }
     sc.close();

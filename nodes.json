@@ -1,0 +1,48 @@
+[
+    {
+        "@type": "NodeRoot",
+        "id": "60b0d3a274a73e1eee11ca5d",
+        "nombre": "root 1"
+    },
+    
+    {
+        "@type": "NodeDesc",
+        "id": "60b0d40e74a73e1eee11ca5e",
+        "nombre": "desc 1_1",
+        "parentId": "60b0d3a274a73e1eee11ca5d"
+    },
+
+    {
+        "@type": "NodeDesc",
+        "id": "60b0d52474a73e1eee11ca60",
+        "nombre": "desc 1_1_1",
+        "parentId": "60b0d40e74a73e1eee11ca5e"
+    },
+
+    {
+        "@type": "NodeDesc",
+        "id": "60b0d53b74a73e1eee11ca61",
+        "nombre": "desc 1_1_2",
+        "parentId": "60b0d40e74a73e1eee11ca5e"
+    },
+
+    {
+        "@type": "NodeDesc",
+        "id": "60b0d4db74a73e1eee11ca5f",
+        "nombre": "desc 1_2",
+        "parentId": "60b0d3a274a73e1eee11ca5d"
+    },
+
+    {
+        "@type": "NodeRoot",
+        "id": "60b0d58974a73e1eee11ca62",
+        "nombre": "root 2"
+    },
+
+    {
+        "@type": "NodeDesc",
+        "id": "60b0d5be74a73e1eee11ca63",
+        "nombre": "desc 2_1",
+        "parentId": "60b0d58974a73e1eee11ca62"
+    }
+]
